@@ -26,9 +26,11 @@
 
 ### Connect to redis server with created user
 
-Open your web app and use connection string like this `redis://<username>:<password>@host.docker.internal:6379/<database_number>` e.g. `redis://admin:test@localhost:6379/0`
+Open your web app and use connection string like this `redis://<username>:<password>@localhost:6379/<database_number>` e.g. `redis://admin:test@localhost:6379/0`
 
-**Note:** _You can use `redis://<username>@host.docker.internal:6379/<database_number>` if you don't want to use password in string or you can use `redis://host.docker.internal:6379/<database_number>` if you don't want to use username and password in string_
+_You can use `redis://<username>@localhost:6379/<database_number>` if you don't want to use password in string or you can use `redis://localhost:6379/<database_number>` if you don't want to use username and password in string_
+
+**Note:** In some cases (if you run web app in docker container) you should use `host.docker.internal` instead of `localhost` in connection string
 
 ## Frequently used commands
 
