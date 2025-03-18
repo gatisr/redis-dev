@@ -1,0 +1,55 @@
+services:
+  master:
+    image: redis:latest
+    container_name: redis-master
+    hostname: redis-master
+    ports:
+      - "6379:6379"
+
+  slave:
+    image: redis:latest
+    container_name: redis-slave
+    command: redis-server --slaveof redis-master 6379
+    ports:
+      - "6380:6379"
+    depends_on:
+      - master
+
+  sentinel1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: redis-sentinel1
+    ports:
+      - "26379:26379"
+    environment:
+      - SENTINEL_QUORUM=2
+      - SENTINEL_DOWN_AFTER=5000
+      - SENTINEL_FAILOVER=5000
+      - HOST_NAME=redis-master
+    depends_on:
+      - master
+      - slave
+
+  sentinel2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: redis-sentinel2
+    ports:
+      - "26380:26379"
+    environment:
+      - SENTINEL_QUORUM=2
+      - SENTINEL_DOWN_AFTER=5000
+      - SENTINEL_FAILOVER=5000
+      - HOST_NAME=redis-master
+    depends_on:
+      - master
+      - slave
+
+  redisinsight:
+    image: redislabs/redisinsight:2.58
+    ports:
+      - '8001:5540'
+    volumes:
+      - ./db:/db
