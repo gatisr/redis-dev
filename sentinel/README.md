@@ -1,5 +1,7 @@
 # Redis Sentinel with RedisInsight for High Availability
 
+**Note:** This setup is not fully usable locally for applications outside the container. After the initial connection, applications may receive container network IPs, which are not accessible from the host machine.
+
 ## Overview
 
 This directory contains a Docker Compose setup for Redis Sentinel, which provides high availability for Redis. The setup includes:
